@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrthographicCamera, PerspectiveCamera } from 'three'
-
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 // cursor
 
 const cursor = {
@@ -63,6 +63,11 @@ console.log(camera.position.length())
 camera.lookAt(mesh.position)
 scene.add(camera)
 
+
+// controls  
+ const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -86,8 +91,7 @@ const tick = () => {
     // camera.position.y = cursor.y * 5
     // camera.lookAt(mesh.position)
 
-// controls  
- 
+
 
 
     // Render
