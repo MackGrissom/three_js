@@ -3,8 +3,17 @@ import * as THREE from 'three'
 import { OrthographicCamera, PerspectiveCamera } from 'three'
 
 // cursor
+
+const cursor = {
+    x:  0,
+    y: 0
+}
+
+
 window.addEventListener('mousemove', (event) => {
-console.log(event.clientX, event.clientY)
+    cursor.x = event.clientX /sizes.width - 0.5
+    cursor.y =  event.clientY / sizes.height - 0.5
+    console.log(cursor.x, cursor.y)
 })
 
 
@@ -34,6 +43,7 @@ scene.add(mesh)
 // Camera
 // PerspectiveCamera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+// Update camera 
 
 // Orthographic camera 
 // const aspectRatio = sizes.width / sizes.height
@@ -46,6 +56,8 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 //     100 )
 // camera.position.x = 2
 // camera.position.y = 2
+
+
 camera.position.z = 3
 console.log(camera.position.length())
 camera.lookAt(mesh.position)
@@ -60,12 +72,23 @@ renderer.setSize(sizes.width, sizes.height)
 // Animate
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
     // mesh.rotation.y = elapsedTime;
+
+
+    // update camera manual way, replaced by orbit controls
+    // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+    // camera.position.z = Math.cos(cursor.x * Math.PI * 2)  * 3
+    // camera.position.y = cursor.y * 5
+    // camera.lookAt(mesh.position)
+
+// controls  
+ 
+
 
     // Render
     renderer.render(scene, camera)
