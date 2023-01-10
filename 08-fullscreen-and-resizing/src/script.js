@@ -22,10 +22,35 @@ scene.add(mesh)
 /**
  * Sizes
  */
+// fullscreen to device
 const sizes = {
-    width: 800,
-    height: 600
+    width: window.innerWidth,
+    height: window.innerHeight
 }
+
+// updates screen on resize
+window.addEventListener('resize', () => 
+{
+   sizes.width = window.innerWidth
+   sizes.width = window.innerHeight
+   // update camera aspect ratio on resize
+   camera.aspect = sizes.width / sizes.height
+
+   render.setSize(sizes.width, sizes.height)
+   renderer.setPixelRatio(math.min(window.devicePixelRatio,2))
+})
+
+window.addEventListener('dblclick', () =>
+{
+    if(!document.fullscreenElement)
+    {
+        console.log('go fullscreen')
+    }
+    else
+    {
+        console.log('leave fullscreen')
+    }
+})
 
 /**
  * Camera
