@@ -2,23 +2,53 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import * as dat from 'lil-gui'
+import { generateUUID } from 'three/src/math/MathUtils'
 
+
+// debug tool gui
+const gui = new dat.GUI()
 /**
- * Base
- */
+ * Base 
+*/
+const parameters = {
+    spin: () =>
+    {
+        gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 })
+    }
+}
+gui.add(parameters, 'spin')
 // Canvas
+
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
 
+
+
+
+
 /**
  * Object
- */
+*/
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+
+// DEBUG - putting after object is initalized so we can change positioning in GUI
+// first param is the object and what you want to adjust the second is the change....then the minimum, maximum or step(for precision)
+gui.add(mesh.position, 'y')
+    .min(-3)
+    .max(3)
+    .step(0.01)
+    .name('Yazzzzis')
+gui.add(mesh, 'visible')
+
+gui.add(material, 'wireframe')
+gui.addColor(material, 'color')
 
 /**
  * Sizes
@@ -28,8 +58,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -69,8 +98,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
