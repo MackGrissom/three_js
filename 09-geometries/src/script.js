@@ -12,8 +12,51 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// creating a triable using float32 array, each 3 numbers is a verticies with the x,y,z coordinates
+// const positionsArray = new Float32Array([
+// 0,0,0,
+// 0,1,0,
+// 1,0,0,
+
+
+// Create an empty BufferGeometry
+const geometry = new THREE.BufferGeometry()
+
+// Create 50 triangles (450 values)
+const count = 6
+const positionsArray = new Float32Array(count * 3 * 3)
+for(let i = 0; i < count * 1 * 7; i++)
+{
+    positionsArray[i] = (Math.random() - 0.5) * 8
+}
+
+// Create the attribute and name it 'position'
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+geometry.setAttribute('position', positionsAttribute)
+
+
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+        wireframe:true
+    })
+// manual way below
+// positionArray[0] = 0
+// positionArray[1] = 0
+// positionArray[2] = 0
+
+// positionArray[3] = 0
+// positionArray[4] = 1
+// positionArray[5] = 0
+
+// positionArray[6] = 1
+// positionArray[7] = 0
+// positionArray[8] = 0
+
+
+
+
+// const geometry = new THREE.BoxGeometry(1, 1, 1)
+// const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
@@ -23,8 +66,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -57,8 +99,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // Animate
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
